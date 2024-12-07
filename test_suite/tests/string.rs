@@ -575,7 +575,7 @@ mod new_unchecked {
 }
 
 #[cfg(test)]
-#[cfg(feature = "schemars08")]
+#[cfg(feature = "schemars1")]
 mod derive_schemars_json_schema {
     use super::*;
     use schemars::{schema_for, JsonSchema};

@@ -48,11 +48,11 @@ jobs:
           command: test
           args: --features arbitrary
 
-      - name: cargo test --features schemars08
+      - name: cargo test --features schemars1
         uses: actions-rs/cargo@v1
         with:
           command: test
-          args: --features schemars08
+          args: --features schemars1
 
       - name: cargo test --all-features
         uses: actions-rs/cargo@v1
@@ -131,7 +131,7 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-          target: thumbv7m-none-eabi   # Needed for no_std_example
+          target: thumbv7m-none-eabi # Needed for no_std_example
 
       - name: Run examples
         run: |

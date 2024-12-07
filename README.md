@@ -14,18 +14,16 @@
 <a href="https://github.com/greyblake/nutype/discussions"><img src="https://img.shields.io/github/discussions/greyblake/nutype"/></a>
 <p>
 
-
 Nutype is a proc macro that allows adding extra constraints like _sanitization_ and _validation_ to the regular [newtype pattern](https://doc.rust-lang.org/rust-by-example/generics/new_types.html). The generated code makes it impossible to instantiate a value without passing the checks. It works this way even with `serde` deserialization.
 
-
-* [Quick start](#quick-start)
-* [Inner types](#inner-types) ([String](#string) | [Integer](#integer) | [Float](#float) | [Other](#other-inner-types-and-generics))
-* [Custom](#custom-sanitizers) ([sanitizers](#custom-sanitizers) | [validators](#custom-validators) | [errors](#custom-validation-with-a-custom-error-type))
-* [Recipes](#recipes)
-* [Breaking constraints with new_unchecked](#breaking-constraints-with-new_unchecked)
-* [Feature Flags](#feature-flags)
-* [Support Ukrainian military forces](#support-ukrainian-military-forces)
-* [Similar projects](#similar-projects)
+- [Quick start](#quick-start)
+- [Inner types](#inner-types) ([String](#string) | [Integer](#integer) | [Float](#float) | [Other](#other-inner-types-and-generics))
+- [Custom](#custom-sanitizers) ([sanitizers](#custom-sanitizers) | [validators](#custom-validators) | [errors](#custom-validation-with-a-custom-error-type))
+- [Recipes](#recipes)
+- [Breaking constraints with new_unchecked](#breaking-constraints-with-new_unchecked)
+- [Feature Flags](#feature-flags)
+- [Support Ukrainian military forces](#support-ukrainian-military-forces)
+- [Similar projects](#similar-projects)
 
 ## Quick start
 
@@ -61,17 +59,18 @@ assert_eq!(
 ```
 
 For more please see:
-* [Examples](https://github.com/greyblake/nutype/tree/master/examples)
-* [Tests](https://github.com/greyblake/nutype/tree/master/test_suite/tests)
 
+- [Examples](https://github.com/greyblake/nutype/tree/master/examples)
+- [Tests](https://github.com/greyblake/nutype/tree/master/test_suite/tests)
 
 ## Inner types
 
 Available sanitizers, validators, and derivable traits are determined by the inner type, which falls into the following categories:
-* String
-* Integer (`u8`, `u16`,`u32`, `u64`, `u128`, `i8`, `i16`, `i32`, `i64`, `i128`, `usize`, `isize`)
-* Float (`f32`, `f64`)
-* Anything else
+
+- String
+- Integer (`u8`, `u16`,`u32`, `u64`, `u128`, `i8`, `i16`, `i32`, `i64`, `i128`, `usize`, `isize`)
+- Float (`f32`, `f64`)
+- Anything else
 
 ## String
 
@@ -80,7 +79,7 @@ At the moment the string inner type supports only `String` (owned) type.
 ### String sanitizers
 
 | Sanitizer   | Description                                                                         | Example                                         |
-|-------------|-------------------------------------------------------------------------------------|-------------------------------------------------|
+| ----------- | ----------------------------------------------------------------------------------- | ----------------------------------------------- |
 | `trim`      | Removes leading and trailing whitespaces                                            | `trim`                                          |
 | `lowercase` | Converts the string to lowercase                                                    | `lowercase`                                     |
 | `uppercase` | Converts the string to uppercase                                                    | `uppercase`                                     |
@@ -89,7 +88,7 @@ At the moment the string inner type supports only `String` (owned) type.
 ### String validators
 
 | Validator      | Description                                                                     | Error variant        | Example                                      |
-|----------------|---------------------------------------------------------------------------------|----------------------|----------------------------------------------|
+| -------------- | ------------------------------------------------------------------------------- | -------------------- | -------------------------------------------- |
 | `len_char_min` | Min length of the string (in chars, not bytes)                                  | `LenCharMinViolated` | `len_char_min = 5`                           |
 | `len_char_max` | Max length of the string (in chars, not bytes)                                  | `LenCharMaxViolated` | `len_char_max = 255`                         |
 | `not_empty`    | Rejects an empty string                                                         | `NotEmptyViolated`   | `not_empty`                                  |
@@ -97,12 +96,12 @@ At the moment the string inner type supports only `String` (owned) type.
 | `predicate`    | Custom validator. A function or closure that receives `&str` and returns `bool` | `PredicateViolated`  | `predicate = \|s: &str\| s.contains('@')`    |
 | `with`         | Custom validator with a custom error                                            | N/A                  | (see example below)                          |
 
-
 #### Regex validation
 
 Requirements:
-* `regex` feature of `nutype` is enabled.
-* You have to explicitly include `regex` as a dependency.
+
+- `regex` feature of `nutype` is enabled.
+- You have to explicitly include `regex` as a dependency.
 
 There are a number of ways you can use regex.
 
@@ -151,13 +150,11 @@ static PHONE_NUMBER_REGEX: Lazy<Regex> =
 pub struct PhoneNumber(String);
 ```
 
-
 ### String derivable traits
 
 The following traits can be derived for a string-based type:
 `Debug`, `Clone`, `PartialEq`, `Eq`, `PartialOrd`, `Ord`, `FromStr`, `AsRef`, `Deref`,
 `From`, `TryFrom`, `Into`, `Hash`, `Borrow`, `Display`, `Default`, `Serialize`, `Deserialize`.
-
 
 ## Integer
 
@@ -166,26 +163,25 @@ The integer inner types are: `u8`, `u16`,`u32`, `u64`, `u128`, `i8`, `i16`, `i32
 ### Integer sanitizers
 
 | Sanitizer | Description       | Example                            |
-|-----------|-------------------|------------------------------------|
+| --------- | ----------------- | ---------------------------------- |
 | `with`    | Custom sanitizer. | `with = \|raw\| raw.clamp(0, 100)` |
 
 ### Integer validators
 
-| Validator           | Description                           | Error variant             | Example                              |
-| ------------------- | ------------------------------------- | ------------------------- | ------------------------------------ |
-| `less`              | Exclusive upper bound                 | `LessViolated`            | `less = 100`                         |
-| `less_or_equal`     | Inclusive upper bound                 | `LessOrEqualViolated`     | `less_or_equal = 99`                 |
-| `greater`           | Exclusive lower bound                 | `GreaterViolated`         | `greater = 17`                       |
-| `greater_or_equal`  | Inclusive lower bound                 | `GreaterOrEqualViolated`  | `greater_or_equal = 18`              |
-| `predicate`         | Custom predicate                      | `PredicateViolated`       | `predicate = \|num\| num % 2 == 0`   |
-| `with`              | Custom validator with a custom error  | N/A                       | (see example below)                  |
+| Validator          | Description                          | Error variant            | Example                            |
+| ------------------ | ------------------------------------ | ------------------------ | ---------------------------------- |
+| `less`             | Exclusive upper bound                | `LessViolated`           | `less = 100`                       |
+| `less_or_equal`    | Inclusive upper bound                | `LessOrEqualViolated`    | `less_or_equal = 99`               |
+| `greater`          | Exclusive lower bound                | `GreaterViolated`        | `greater = 17`                     |
+| `greater_or_equal` | Inclusive lower bound                | `GreaterOrEqualViolated` | `greater_or_equal = 18`            |
+| `predicate`        | Custom predicate                     | `PredicateViolated`      | `predicate = \|num\| num % 2 == 0` |
+| `with`             | Custom validator with a custom error | N/A                      | (see example below)                |
 
 ### Integer derivable traits
 
 The following traits can be derived for an integer-based type:
 `Debug`, `Clone`, `Copy`, `PartialEq`, `Eq`, `PartialOrd`, `Ord`, `FromStr`, `AsRef`, `Deref`,
 `Into`, `From`, `TryFrom`, `Hash`, `Borrow`, `Display`, `Default`, `Serialize`, `Deserialize`.
-
 
 ## Float
 
@@ -194,20 +190,20 @@ The float inner types are: `f32`, `f64`.
 ### Float sanitizers
 
 | Sanitizer | Description       | Example                                |
-|-----------|-------------------|----------------------------------------|
+| --------- | ----------------- | -------------------------------------- |
 | `with`    | Custom sanitizer. | `with = \|val\| val.clamp(0.0, 100.0)` |
 
 ### Float validators
 
-| Validator          | Description                          | Error variant            | Example                             |
-| ------------------ | ------------------------------------ | ------------------------ | ----------------------------------- |
-| `less`             | Exclusive upper bound                | `LessViolated`           | `less = 100.0`                      |
-| `less_or_equal`    | Inclusive upper bound                | `LessOrEqualViolated`    | `less_or_equal = 100.0`             |
-| `greater`          | Exclusive lower bound                | `GreaterViolated`        | `greater = 0.0`                     |
-| `greater_or_equal` | Inclusive lower bound                | `GreaterOrEqualViolated` | `greater_or_equal = 0.0`            |
-| `finite`           | Check against NaN and infinity       | `FiniteViolated`         | `finite`                            |
-| `predicate`        | Custom predicate                     | `PredicateViolated`      | `predicate = \|val\| val != 50.0`   |
-| `with`             | Custom validator with a custom error | N/A                      | (see example below)                 |
+| Validator          | Description                          | Error variant            | Example                           |
+| ------------------ | ------------------------------------ | ------------------------ | --------------------------------- |
+| `less`             | Exclusive upper bound                | `LessViolated`           | `less = 100.0`                    |
+| `less_or_equal`    | Inclusive upper bound                | `LessOrEqualViolated`    | `less_or_equal = 100.0`           |
+| `greater`          | Exclusive lower bound                | `GreaterViolated`        | `greater = 0.0`                   |
+| `greater_or_equal` | Inclusive lower bound                | `GreaterOrEqualViolated` | `greater_or_equal = 0.0`          |
+| `finite`           | Check against NaN and infinity       | `FiniteViolated`         | `finite`                          |
+| `predicate`        | Custom predicate                     | `PredicateViolated`      | `predicate = \|val\| val != 50.0` |
+| `with`             | Custom validator with a custom error | N/A                      | (see example below)               |
 
 ### Float derivable traits
 
@@ -260,8 +256,6 @@ let numbers = SortedNotEmptyVec::try_new(vec![4, 2, 7, 1]).unwrap();
 assert_eq!(numbers.as_ref(), &[1, 2, 4, 7]);
 assert_eq!(numbers.len(), 4);
 ```
-
-
 
 ## Custom sanitizers
 
@@ -370,7 +364,6 @@ The `finite` validation ensures that the valid value excludes `NaN`.
 pub struct Weight(f64);
 ```
 
-
 ## Breaking constraints with new_unchecked
 
 It's discouraged, but it's possible to bypass the constraints by enabling `new_unchecked` crate feature and marking a type with `new_unchecked`:
@@ -392,27 +385,27 @@ assert_eq!(name.into_inner(), " boo ");
 
 ## Feature flags
 
-* `arbitrary` - enables derive of [`arbitrary::Arbitrary`](https://docs.rs/arbitrary/latest/arbitrary/trait.Arbitrary.html).
-* `new_unchecked` - enables generation of unsafe `::new_unchecked()` function.
-* `regex` - allows to use `regex = ` validation on string-based types. Note: your crate also has to explicitly have `regex` within its dependencies.
-* `serde` - integrations with [`serde`](https://crates.io/crates/serde) crate. Allows to derive `Serialize` and `Deserialize` traits.
-* `schemars08` - allows to derive [`JsonSchema`](https://docs.rs/schemars/0.8.12/schemars/trait.JsonSchema.html) trait of [schemars](https://crates.io/crates/schemars) crate. Note that at the moment validation rules are not respected.
-* `std` - enabled by default. Use `default-features = false` to disable.
+- `arbitrary` - enables derive of [`arbitrary::Arbitrary`](https://docs.rs/arbitrary/latest/arbitrary/trait.Arbitrary.html).
+- `new_unchecked` - enables generation of unsafe `::new_unchecked()` function.
+- `regex` - allows to use `regex = ` validation on string-based types. Note: your crate also has to explicitly have `regex` within its dependencies.
+- `serde` - integrations with [`serde`](https://crates.io/crates/serde) crate. Allows to derive `Serialize` and `Deserialize` traits.
+- `schemars1` - allows to derive [`JsonSchema`](https://docs.rs/schemars/1.0.0-alpha.17/schemars/trait.JsonSchema.html) trait of [schemars](https://crates.io/crates/schemars) crate. Note that at the moment validation rules are not respected.
+- `std` - enabled by default. Use `default-features = false` to disable.
 
 ## When nutype is a good fit for you?
 
-* If you enjoy [newtype](https://doc.rust-lang.org/book/ch19-04-advanced-types.html#using-the-newtype-pattern-for-type-safety-and-abstraction)
+- If you enjoy [newtype](https://doc.rust-lang.org/book/ch19-04-advanced-types.html#using-the-newtype-pattern-for-type-safety-and-abstraction)
   pattern and you like the idea of leveraging the Rust type system to enforce the correctness of the business logic.
-* If you want to use type system to hold invariants
-* If you're a DDD fan, nutype is a great helper to make your domain models even more expressive.
-* You want to prototype quickly without sacrificing quality.
+- If you want to use type system to hold invariants
+- If you're a DDD fan, nutype is a great helper to make your domain models even more expressive.
+- You want to prototype quickly without sacrificing quality.
 
 ## When nutype is not that good?
 
-* You care too much about compiler time (nutype relies on heavy usage of proc macros).
-* You think metaprogramming is too much implicit magic.
-* IDEs may not be very helpful at giving you hints about proc macros.
-* Design of nutype may enforce you to run unnecessary validation (e.g. on loading data from DB), which may have a negative impact if you aim for extreme performance.
+- You care too much about compiler time (nutype relies on heavy usage of proc macros).
+- You think metaprogramming is too much implicit magic.
+- IDEs may not be very helpful at giving you hints about proc macros.
+- Design of nutype may enforce you to run unnecessary validation (e.g. on loading data from DB), which may have a negative impact if you aim for extreme performance.
 
 ## Support Ukrainian military forces
 
@@ -432,11 +425,11 @@ Thank you.
 
 ## Similar projects
 
-* [prae](https://github.com/teenjuna/prae) - A very similar crate that aims to solve the same problems but with slightly different approach.
-* [bounded-integer](https://github.com/Kestrer/bounded-integer) - Bounded integers for Rust.
-* [refinement](https://docs.rs/refinement/latest/refinement/) - Convenient creation of type-safe refinement types (based on generics).
-* [semval](https://github.com/slowtec/semval) - Semantic validation for Rust.
-* [validator](https://github.com/Keats/validator) - Simple validation for Rust structs (powered by macros).
+- [prae](https://github.com/teenjuna/prae) - A very similar crate that aims to solve the same problems but with slightly different approach.
+- [bounded-integer](https://github.com/Kestrer/bounded-integer) - Bounded integers for Rust.
+- [refinement](https://docs.rs/refinement/latest/refinement/) - Convenient creation of type-safe refinement types (based on generics).
+- [semval](https://github.com/slowtec/semval) - Semantic validation for Rust.
+- [validator](https://github.com/Keats/validator) - Simple validation for Rust structs (powered by macros).
 
 ## License
 

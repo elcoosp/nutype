@@ -38,6 +38,6 @@ proc-macro = true
 [features]
 std = []
 serde = []
-schemars08 = []
+schemars1 = []
 new_unchecked = []
 arbitrary = []

@@ -359,7 +359,7 @@ pub enum DeriveTrait {
     #[cfg_attr(not(feature = "serde"), allow(dead_code))]
     SerdeDeserialize,
 
-    #[cfg_attr(not(feature = "schemars08"), allow(dead_code))]
+    #[cfg_attr(not(feature = "schemars1"), allow(dead_code))]
     SchemarsJsonSchema,
 
     #[cfg_attr(not(feature = "arbitrary"), allow(dead_code))]

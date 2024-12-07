@@ -46,10 +46,10 @@ impl Parse for SpannedDeriveTrait {
             }
             "JsonSchema" => {
                 cfg_if! {
-                    if #[cfg(feature = "schemars08")] {
+                    if #[cfg(feature = "schemars1")] {
                         DeriveTrait::SchemarsJsonSchema
                     } else {
-                        return Err(syn::Error::new(ident.span(), "To derive JsonSchema, the feature `schemars08` of the crate `nutype` needs to be enabled."));
+                        return Err(syn::Error::new(ident.span(), "To derive JsonSchema, the feature `schemars1` of the crate `nutype` needs to be enabled."));
                     }
                 }
             }

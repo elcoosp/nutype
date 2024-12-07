@@ -9,7 +9,7 @@ test-features:
 	cargo test --features serde
 	cargo test --features regex
 	cargo test --features new_unchecked
-	cargo test --features schemars08
+	cargo test --features schemars1
 	cargo test --features arbitrary
 	cargo test --all-features
 

@@ -11,7 +11,7 @@ trybuild = { version = "1.0.71", features = ["diff"] }
 
 serde = { version = "1.0.150", optional = true }
 serde_json = { version = "1.0.89", optional = true }
-schemars = { version = "0.8", optional = true }
+schemars = { version = "1.0.0-alpha.17", optional = true }
 lazy_static = { version = "1", optional = true }
 regex = { version = "1", optional = true }
 once_cell = { version = "1", optional = true }
@@ -26,6 +26,6 @@ thiserror = "1.0.63"
 serde = ["nutype/serde", "dep:serde", "dep:serde_json"]
 regex = ["nutype/regex", "dep:regex", "dep:lazy_static", "dep:once_cell"]
 arbitrary = ["nutype/arbitrary"]
-schemars08 = ["schemars"]
+schemars1 = ["schemars"]
 new_unchecked = []
 ui = []
