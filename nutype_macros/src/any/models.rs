@@ -49,6 +49,7 @@ pub enum AnyDeriveTrait {
     SerdeSerialize,
     SerdeDeserialize,
     ArbitraryArbitrary,
+    SchemarsJsonSchema,
 }
 
 impl TypeTrait for AnyDeriveTrait {
