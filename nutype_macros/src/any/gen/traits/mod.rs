@@ -48,9 +48,6 @@ impl From<AnyDeriveTrait> for AnyGeneratableTrait {
             AnyDeriveTrait::SerdeSerialize => {
                 AnyGeneratableTrait::Irregular(AnyIrregularTrait::SerdeSerialize)
             }
-            AnyDeriveTrait::SchemarsJsonSchema => {
-                AnyGeneratableTrait::Irregular(AnyIrregularTrait::SchemarsJsonSchema)
-            }
             AnyDeriveTrait::SerdeDeserialize => {
                 AnyGeneratableTrait::Irregular(AnyIrregularTrait::SerdeDeserialize)
             }
@@ -106,7 +103,6 @@ enum AnyIrregularTrait {
     SerdeSerialize,
     SerdeDeserialize,
     ArbitraryArbitrary,
-    SchemarsJsonSchema,
 }
 
 pub fn gen_traits(
@@ -185,7 +181,6 @@ fn gen_implemented_traits(
                 gen_impl_trait_serde_deserialize(type_name, generics, inner_type, maybe_error_type_name)
             ),
             AnyIrregularTrait::ArbitraryArbitrary => arbitrary::gen_impl_trait_arbitrary(type_name, generics, inner_type, guard),
-            AnyIrregularTrait::SchemarsJsonSchema=> Ok(quote!{})
         })
         .collect()
 }
